@@ -1,68 +1,166 @@
 "use client";
-import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { Wheel } from "react-custom-roulette";
 
 const data = [
-  { option: "Arithmatic 1", style: { textColor: "white" } },
-  { option: "Arithmatic 2", style: { textColor: "white" } },
-  { option: "Arithmatic 3", style: { textColor: "white" } },
-  {
-    option: "Wild Card",
-    style: { backgroundColor: "#05f209", textColor: "white" },
-  },
-  { option: "Algebra 1", style: { textColor: "white" } },
-  { option: "Algebra 2", style: { textColor: "white" } },
-  { option: "Algebra 3", style: { textColor: "white" } },
-  { option: "Geometry 1", style: { textColor: "white" } },
-  { option: "Geometry 2", style: { textColor: "white" } },
-  { option: "Geometry 3", style: { textColor: "white" } },
-  {
-    option: "Wild Card",
-    style: { backgroundColor: "#05f209", textColor: "white" },
-  },
-  {
-    option: "Trig 2",
+  { 
+    option: "Arith 1",
     style: {
-      textColor: "white",
+      backgroundColor: "green",
+      textColor: "#ede5d2",
     },
+    name: "Arithmatics Easy",
+  },
+  { 
+    option: "Arith 2", 
+    style: {
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
+    },
+    name: "Arithmatics Medium",
+  },
+  { 
+    option: "Arith 3", 
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    }, 
+    name: "Arithmatics Hard",
+  },
+  {
+    option: "Wild Card",
+    style: { backgroundColor: "#f4fd2e", textColor: "black" },
+  },
+  { 
+    option: "Algebra 1", 
+    style: {
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
+    },
+    name: "Algebra Easy", 
+  },
+  { 
+    option: "Algebra 2", 
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    }, 
+    name: "Algebra Medium", 
+  },
+  { 
+    option: "Algebra 3", 
+    style: {
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
+    },
+    name: "Algebra Hard",  
+  },
+  { 
+    option: "Geo 1", 
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    },
+    name: "Geometry Easy", 
+  },
+  { 
+    option: "Geo 2", 
+    style: {
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
+    },
+    name: "Geometry Medium", 
+  },
+  { 
+    option: "Geo 3", 
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    }, 
+    name: "Geometry Hard",
+  },
+  {
+    option: "Wild Card",
+    style: { backgroundColor: "#f4fd2e", textColor: "black" },
   },
   {
     option: "Trig 1",
     style: {
-      textColor: "white",
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
     },
+    name: "Trigonometry Easy",
+  },
+  {
+    option: "Trig 2",
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    },
+    name: "Trigonometry Medium",
   },
   {
     option: "Trig 3",
     style: {
-      textColor: "white",
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
     },
+    name: "Trigonometry Hard",
   },
   {
     option: "Stats 1",
     style: {
-      textColor: "white",
+      backgroundColor: "green",
+      textColor: "#ede5d2",
     },
+    name: "Statistics Easy",
   },
   {
     option: "Stats 2",
     style: {
-      textColor: "white",
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
     },
+    name: "Statistics Medium",
   },
   {
     option: "Stats 3",
     style: {
-      textColor: "white",
+      backgroundColor: "green",
+      textColor: "#ede5d2",
     },
+    name: "Statistics Hard",
   },
   {
     option: "Bankrupt",
     style: {
-      backgroundColor: "green",
-      textColor: "white",
+      backgroundColor: "#eb4d4d",
+      textColor: "black",
     },
+  },
+  {
+    option: "Seq 1",
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    },
+    name: "Sequences Easy",
+  },
+  {
+    option: "Seq 2",
+    style: {
+      backgroundColor: "#ede5d2",
+      textColor: "#4f6759",
+    },
+    name: "Sequences Medium",
+  },
+  {
+    option: "Seq 3",
+    style: {
+      backgroundColor: "green",
+      textColor: "#ede5d2",
+    },
+    name: "Sequences Hard",
   },
 ];
 
@@ -70,81 +168,62 @@ export default function Home() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const mustSpinRef = useRef(false);
+  const [winner, setWinner] = useState<string | null>(null);
+  const spinSound = useRef(new Audio("/roulette.mp3"));
   const buttonClick = () => {
+    setWinner(null);
     setMustSpin(true);
+    spinSound.current.currentTime = 0;
+    spinSound.current.play();
     mustSpinRef.current = true;
+    console.log(data.length);
     const randomPrize = Math.floor(Math.random() * data.length);
     setPrizeNumber(randomPrize);
   };
 
   return (
-    <div className="bg-zinc-200 grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <h1 className="text-black text-2xl font-bold text-center sm:text-4xl">
-          MUBASHIR AMIR RIAZ RAJA Roulette game for Maths
+    <div className="container">
+      <div className="yellow-circle"></div>
+      <div className="yellow-circle"></div>
+      <div className="yellow-circle"></div>
+      <div className="yellow-circle"></div>
+      <div className="yellow-circle"></div>
+      <div className="yellow-circle"></div>
+      <main className="containerInner">
+        <h1 className="text text-2xl font-bold text-center sm:text-4xl">
+          Wheel of Wisdom
         </h1>
-        <div style={{ width: "400px", height: "400px", margin: "0 auto" }}>
+        <div className="wheelContainer">
+          <div className="winner">
+            {winner && <h2 className='winnerText'>{winner} 🎉</h2>}
+          </div>
           <Wheel
             mustStartSpinning={mustSpin}
             prizeNumber={prizeNumber}
             data={data}
-            innerRadius={30} // Creates the hollow center
-            textDistance={65} // Positions text closer to the segments
+            innerRadius={50} // Creates the hollow center
+            textDistance={75} // Positions text closer to the segments
             backgroundColors={["#3e3e3e", "#df3428"]}
             innerBorderColor="black" // Set inner border color to black
             innerBorderWidth={15}
             outerBorderWidth={15}
-            onStopSpinning={() => setMustSpin(false)}
+            onStopSpinning={() => {
+              setMustSpin(false)
+              setWinner(data[prizeNumber].name ?? data[prizeNumber].option)
+              spinSound.current.pause();
+              spinSound.current.currentTime = 0;
+            }}
             spinDuration={0.5}
+            fontSize={15}
           />
         </div>
         <button
-          className="px-4 py-2 text-white bg-blue-500 rounded-md"
+          className="button"
           onClick={buttonClick}
         >
           SPIN THE WHEEL{" "}
         </button>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
