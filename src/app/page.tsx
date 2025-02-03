@@ -155,6 +155,7 @@ export default function Home() {
   useEffect(() => {
     setIsClient(true); // Ensures this runs only on the client
     spinSound.current = new Audio("/roulette.mp3");
+    console.log('rofl');
   }, []);
   
   const buttonClick = () => {
