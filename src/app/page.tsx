@@ -142,30 +142,6 @@ const data = [
       textColor: "black",
     },
   },
-  {
-    option: "Seq 1",
-    style: {
-      backgroundColor: "green",
-      textColor: "#ede5d2",
-    },
-    name: "Sequences Easy",
-  },
-  {
-    option: "Seq 2",
-    style: {
-      backgroundColor: "#ede5d2",
-      textColor: "#4f6759",
-    },
-    name: "Sequences Medium",
-  },
-  {
-    option: "Seq 3",
-    style: {
-      backgroundColor: "green",
-      textColor: "#ede5d2",
-    },
-    name: "Sequences Hard",
-  },
 ];
 
 export default function Home() {
@@ -174,7 +150,7 @@ export default function Home() {
   const mustSpinRef = useRef(false);
   const [winner, setWinner] = useState<string | null>(null);
   const spinSound = useRef<HTMLAudioElement | null>(null);
-  const [isClient, setIsClient] = useState(false);
+  const [, setIsClient] = useState(false);
 
   useEffect(() => {
     setIsClient(true); // Ensures this runs only on the client

@@ -1,7 +1,6 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+const nextConfig = {
+  output: "export", // Enable static export
+  images: { unoptimized: true }, // Fix for next/image in static builds
 };
 
 export default nextConfig;
