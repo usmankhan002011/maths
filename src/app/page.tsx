@@ -1,6 +1,10 @@
 "use client";
-import React, { useRef, useState } from "react";
-import { Wheel } from "react-custom-roulette";
+import dynamic from "next/dynamic";
+import React, { useEffect, useRef, useState } from "react";
+const Wheel = dynamic(
+  () => import("react-custom-roulette").then((mod) => mod.Wheel),
+  { ssr: false }
+);
 
 const data = [
   { 
@@ -169,14 +173,22 @@ export default function Home() {
   const [prizeNumber, setPrizeNumber] = useState(0);
   const mustSpinRef = useRef(false);
   const [winner, setWinner] = useState<string | null>(null);
-  const spinSound = useRef(new Audio("/roulette.mp3"));
+  const spinSound = useRef<HTMLAudioElement | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true); // Ensures this runs only on the client
+    spinSound.current = new Audio("/roulette.mp3");
+  }, []);
+  
   const buttonClick = () => {
     setWinner(null);
     setMustSpin(true);
-    spinSound.current.currentTime = 0;
-    spinSound.current.play();
+    if (spinSound.current) {
+      spinSound.current.currentTime = 0;
+      spinSound.current.play();
+    }
     mustSpinRef.current = true;
-    console.log(data.length);
     const randomPrize = Math.floor(Math.random() * data.length);
     setPrizeNumber(randomPrize);
   };
@@ -210,8 +222,10 @@ export default function Home() {
             onStopSpinning={() => {
               setMustSpin(false)
               setWinner(data[prizeNumber].name ?? data[prizeNumber].option)
-              spinSound.current.pause();
-              spinSound.current.currentTime = 0;
+              if (spinSound.current) {
+                spinSound.current.pause();
+                spinSound.current.currentTime = 0;
+              }
             }}
             spinDuration={0.5}
             fontSize={15}
